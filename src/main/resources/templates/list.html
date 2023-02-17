@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascotas</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col" th:each="mascota: ${mascotas}">
+                <div class="card">
+                    <div class="card-header">
+
+                    </div>
+                    <div class="card-body">
+                        [[${mascota.nombre}]]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
