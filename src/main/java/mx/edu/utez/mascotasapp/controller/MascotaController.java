@@ -9,22 +9,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/mascotas")
 public class MascotaController {
     private List<Mascota> mascotas;
-    @GetMapping("/list")
+    @GetMapping(value = "/list")
     public String list(Model modelo) {
         initMascotas();
         modelo.addAttribute("mascotas", this.mascotas);
         return "listMascotas";
     }
     @GetMapping("/filter/{tipo}")
-    public String perros(Model modelo, @PathVariable String tipo) {
+    public String filter(Model modelo, @PathVariable String tipo) {
         initMascotas();
-        List<Mascota> mascotas = new ArrayList<>();
+        List<Mascota> mascotas = new LinkedList<>();
         for (Mascota mascota : this.mascotas) if (mascota.getTipoMascota().equals(tipo)) mascotas.add(mascota);
         modelo.addAttribute("mascotas", mascotas);
         return "listMascotas";
@@ -32,7 +33,7 @@ public class MascotaController {
 
     private void initMascotas() {
         if (mascotas == null) {
-            mascotas = new ArrayList<>();
+            mascotas = new LinkedList<>();
             mascotas.add(new Mascota(
                     "Pancho",
                     5,
@@ -50,9 +51,9 @@ public class MascotaController {
                     true
             ));
             mascotas.add(new Mascota(
-                    "Sergio",
+                    "Galleta",
                     3,
-                    "El Serch",
+                    "Perro llamado Galleta",
                     "Perro",
                     "perro4.jpg",
                     true
@@ -66,9 +67,9 @@ public class MascotaController {
                     false
             ));
             mascotas.add(new Mascota(
-                    "Tripa",
+                    "Sergio",
                     7,
-                    "Perro llamado Tripa",
+                    "El Serch",
                     "Perro",
                     "perro3.jpeg",
                     true
@@ -90,9 +91,9 @@ public class MascotaController {
                     false
             ));
             mascotas.add(new Mascota(
-                    "Eulalio",
+                    "Max",
                     6,
-                    "Perro llamado Eulalio",
+                    "Perro llamado Max",
                     "Perro",
                     "perro2.jpg",
                     true

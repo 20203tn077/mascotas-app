@@ -31,13 +31,13 @@
 </nav>
 <div class="container my-4">
     <div class="row g-3">
-        <div class="col-sm-6 col-md-3" th:each="mascota: ${mascotas}">
+        <div class="col-sm-6 col-md-3" th:each="mascota: ${mascotas}" th:object="${mascota}">
             <div class="card shadow-sm">
-                <img class="card-img-top" style="aspect-ratio: 3/2; object-fit: cover" th:src="@{/images/mascotas/{imagen}(imagen = ${mascota.imagen})}" alt="">
+                <img class="card-img-top" style="aspect-ratio: 3/2; object-fit: cover" th:src="@{/images/mascotas/{imagen}(imagen = *{imagen})}" alt="">
                 <div class="card-body vstack gap-2">
-                    <h5 class="m-0" th:text="${mascota.nombre}"/>
-                    <div><span class="badge text-bg-primary me-1" th:text="${mascota.tipoMascota}"/><span class="badge" th:classappend="${mascota.disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}" th:text="${mascota.disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"/></div>
-                    <span th:text="${mascota.descripcion}"/>
+                    <h5 class="m-0" th:text="*{nombre}"/>
+                    <div><span class="badge text-bg-primary me-1" th:text="*{tipoMascota}"/><span class="badge" th:classappend="*{disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}" th:text="*{disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"/></div>
+                    <span th:text="*{descripcion}"/>
                     <p class="m-0"><span class="text-muted">Edad: </span>[[${mascota.edad}]] años</p>
                 </div>
             </div>
