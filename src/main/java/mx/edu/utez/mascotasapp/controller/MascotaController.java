@@ -11,23 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/mascotas")
 public class MascotaController {
     private List<Mascota> mascotas;
-    @GetMapping(value = "/list")
-    public String list(Model modelo) {
-        initMascotas();
-        modelo.addAttribute("mascotas", this.mascotas);
-        return "listMascotas";
-    }
-    @GetMapping("/filter/{tipo}")
-    public String filter(Model modelo, @PathVariable String tipo) {
+    @GetMapping(value = {"/list/{disponibles}", "/list/{tipo}/{disponibles}"})
+    public String list(Model modelo, @PathVariable Optional<String> tipo, @PathVariable boolean disponibles) {
+        System.out.println(disponibles ? "DISPONIBLES" : "NO DISPONIBLES");
         initMascotas();
         List<Mascota> mascotas = new LinkedList<>();
-        for (Mascota mascota : this.mascotas) if (mascota.getTipoMascota().equals(tipo)) mascotas.add(mascota);
+        for (Mascota mascota : this.mascotas) if ((tipo.isEmpty() || mascota.getTipoMascota().equals(tipo.get())) && (!disponibles || mascota.getDisponibleAdopcion())) mascotas.add(mascota);
         modelo.addAttribute("mascotas", mascotas);
+        modelo.addAttribute("disponibles", disponibles);
         return "listMascotas";
     }
 

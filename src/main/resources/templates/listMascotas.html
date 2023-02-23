@@ -17,13 +17,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/list}">Listado</a>
+                    <a class="nav-link" th:href="@{/mascotas/list/false}">Listado</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/filter/Perro}">Perros</a>
+                    <a class="nav-link" th:href="@{/mascotas/list/Perro/false}">Perros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/filter/Gato}">Gatos</a>
+                    <a class="nav-link" th:href="@{/mascotas/list/Gato/false}">Gatos</a>
                 </li>
             </ul>
         </div>
@@ -36,7 +36,13 @@
                 <img class="card-img-top" style="aspect-ratio: 3/2; object-fit: cover" th:src="@{/images/mascotas/{imagen}(imagen = *{imagen})}" alt="">
                 <div class="card-body vstack gap-2">
                     <h5 class="m-0" th:text="*{nombre}"/>
-                    <div><span class="badge text-bg-primary me-1" th:text="*{tipoMascota}"/><span class="badge" th:classappend="*{disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}" th:text="*{disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"/></div>
+                    <div>
+                        <span class="badge text-bg-primary me-1" th:text="*{tipoMascota}"/>
+                        <span
+                                class="badge" th:classappend="*{disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}"
+                                th:text="*{disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"
+                        />
+                    </div>
                     <span th:text="*{descripcion}"/>
                     <p class="m-0"><span class="text-muted">Edad: </span>[[${mascota.edad}]] años</p>
                 </div>
