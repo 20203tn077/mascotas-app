@@ -17,19 +17,23 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/list/false}">Listado</a>
+                    <a class="nav-link" th:classappend="${tipo} == null ? 'active' : ''" th:href="@{/mascotas/list/false}">Listado</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/list/Perro/false}">Perros</a>
+                    <a class="nav-link" th:classappend="${tipo} == 'Perro' ? 'active' : ''" th:href="@{/mascotas/list/Perro/false}">Perros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/list/Gato/false}">Gatos</a>
+                    <a class="nav-link" th:classappend="${tipo} == 'Gato' ? 'active' : ''" th:href="@{/mascotas/list/Gato/false}">Gatos</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="container my-4">
+<div class="container my-4 vstack gap-3">
+    <div class="form-check form-switch">
+        <input class="form-check-input" id="swDisponible" type="checkbox" role="switch" th:checked="${disponibles}" th:onclick="redirect([[${tipo} != null ? @{/mascotas/list/{tipo}/{disponibles}(disponibles = ${!disponibles}, tipo = ${tipo})} : @{/mascotas/list/{disponibles}(disponibles = ${!disponibles})}]])">
+        <label class="form-check-label" for="swDisponible">Mostrar solo disponibles para adopción</label>
+    </div>
     <div class="row g-3">
         <div class="col-sm-6 col-md-3" th:each="mascota: ${mascotas}" th:object="${mascota}">
             <div class="card shadow-sm">
@@ -38,10 +42,7 @@
                     <h5 class="m-0" th:text="*{nombre}"/>
                     <div>
                         <span class="badge text-bg-primary me-1" th:text="*{tipoMascota}"/>
-                        <span
-                                class="badge" th:classappend="*{disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}"
-                                th:text="*{disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"
-                        />
+                        <span class="badge" th:classappend="*{disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}" th:text="*{disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"/>
                     </div>
                     <span th:text="*{descripcion}"/>
                     <p class="m-0"><span class="text-muted">Edad: </span>[[${mascota.edad}]] años</p>
@@ -51,5 +52,6 @@
     </div>
 </div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/mascotasController.js}"></script>
 </body>
 </html>

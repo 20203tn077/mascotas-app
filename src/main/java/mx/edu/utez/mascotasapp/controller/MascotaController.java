@@ -19,12 +19,12 @@ public class MascotaController {
     private List<Mascota> mascotas;
     @GetMapping(value = {"/list/{disponibles}", "/list/{tipo}/{disponibles}"})
     public String list(Model modelo, @PathVariable Optional<String> tipo, @PathVariable boolean disponibles) {
-        System.out.println(disponibles ? "DISPONIBLES" : "NO DISPONIBLES");
         initMascotas();
         List<Mascota> mascotas = new LinkedList<>();
         for (Mascota mascota : this.mascotas) if ((tipo.isEmpty() || mascota.getTipoMascota().equals(tipo.get())) && (!disponibles || mascota.getDisponibleAdopcion())) mascotas.add(mascota);
         modelo.addAttribute("mascotas", mascotas);
         modelo.addAttribute("disponibles", disponibles);
+        modelo.addAttribute("tipo", tipo.orElse(null));
         return "listMascotas";
     }
 
