@@ -1,6 +1,9 @@
 package mx.edu.utez.mascotasapp.controller;
 
 import mx.edu.utez.mascotasapp.model.Mascota;
+import mx.edu.utez.mascotasapp.service.IMascotaService;
+import mx.edu.utez.mascotasapp.service.MascotaServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +17,13 @@ import java.util.*;
 public class MascotaController {
     private List<Mascota> mascotas = new LinkedList<>();
     private Map<String, Object> context = new LinkedHashMap<>();
+
+    @Autowired
+    private IMascotaService mascotaService;
     @GetMapping({"/list/{disponibles}", "/list/{tipo}/{disponibles}"})
     public String list(Model modelo, @PathVariable(required = false) String tipo, @PathVariable boolean disponibles) {
-        initMascotas();
         List<Mascota> mascotas = new LinkedList<>();
-        for (Mascota mascota : this.mascotas) if ((tipo == null || mascota.getTipoMascota().equals(tipo)) && (!disponibles || mascota.getDisponibleAdopcion())) mascotas.add(mascota);
+        for (Mascota mascota : mascotaService.findAll()) if ((tipo == null || mascota.getTipoMascota().equals(tipo)) && (!disponibles || mascota.getDisponibleAdopcion())) mascotas.add(mascota);
         modelo.addAttribute("mascotas", mascotas);
         modelo.addAttribute("disponibles", disponibles);
         modelo.addAttribute("tipo", tipo);
