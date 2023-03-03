@@ -5,31 +5,11 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Mascotas</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <div th:replace="~{fragments/bootstrap :: css}"/>
     <link rel="stylesheet" th:href="@{/css/fontawesome.min.css}">
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/mascotas/list/false}">Mascotas App</a>
-        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/list/false}">Listado</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/list/Perro/false}">Perros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mascotas/list/Gato/false}">Gatos</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="~{fragments/header :: navbar}"/>
 <div class="container my-4">
     <div class="card shadow-sm">
         <div class="card-header">
@@ -114,7 +94,7 @@
     </div>
 </div>
 
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<div th:replace="~{fragments/bootstrap :: js}"/>
 <script th:src="@{/js/mascotasController.js}"></script>
 <script>if ([[${message != null}]]) notification.show('[[${message}]]', true)</script>
 </body>

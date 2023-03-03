@@ -3,11 +3,12 @@ package mx.edu.utez.mascotasapp.service;
 import mx.edu.utez.mascotasapp.model.Mascota;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class MascotaServiceImpl implements IMascotaService {
-    List<Mascota> pets = null;
+    private List<Mascota> pets = null;
 
     public MascotaServiceImpl(List<Mascota> pets) {
         if (pets != null) fillPets();
@@ -15,16 +16,17 @@ public class MascotaServiceImpl implements IMascotaService {
 
     @Override
     public List<Mascota> findAll() {
-        return null;
+        return pets;
     }
 
     @Override
-    public List<Mascota> findByTypeAndStatus(String type, boolean status) {
-        return null;
+    public boolean save(Mascota pet) {
+        pets.add(0, pet);
+        return true;
     }
 
-
     private void fillPets() {
+        pets = new LinkedList<>();
         pets.add(new Mascota(
                 "Pancho",
                 5,
