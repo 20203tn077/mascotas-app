@@ -16,8 +16,16 @@
             <h4 class="m-0">Registrar <span class="text-lowercase" th:text="${tipo} ?: 'mascota'"/></h4>
         </div>
         <div class="card-body">
-            <form id="formMascota" th:action="${tipo} ? @{/mascotas/save/{tipo}(tipo = ${tipo})} : @{/mascotas/save}" method="post">
+            <form id="formMascota" th:action="${tipo} ? @{/mascotas/save/{tipo}(tipo = ${tipo})} : @{/mascotas/save}" method="post" th:object="${mascota}">
                 <div class="row g-3">
+                    <div class="col-12" th:if="${#fields.hasErrors('*')}">
+                        <div class="alert alert-danger" role="alert">
+                            Por favor, solucione los siguientes errores:
+                            <ul>
+                                <li th:each="error : ${#fields.errors('*')}" th:text="${error}"/>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="col-sm-6 col-lg-4">
                         <label>Nombre:</label>
                         <input name="nombre" class="form-control" type="text" required autocomplete="off">
@@ -60,8 +68,12 @@
                             <option th:if="not ${tipo} or ${tipo} == 'Perro'" value="perro8.jpg">perro8.jpg</option>
                         </select>
                     </div>
+                    <div class="col-sm-6 col-lg-2">
+                        <label>Fecha de rescate:</label>
+                        <input name="fechaRescate" class="form-control" type="date" required>
+                    </div>
                     <div class="col-sm-6 col-lg-4">
-                        <label>Disponible para adopción</label><br>
+                        <label>Disponible para adopción: </label><br>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
                                 Sí

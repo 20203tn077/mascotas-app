@@ -31,6 +31,7 @@
                     </div>
                     <span th:text="*{descripcion}"/>
                     <p class="m-0"><span class="text-muted">Edad: </span>[[${mascota.edad}]] años</p>
+                    <small class="fst-italic">Rescatado el [[${#dates.format(mascota.fechaRescate, 'dd/MM/yyyy')}]]</small>
                 </div>
             </div>
         </div>
