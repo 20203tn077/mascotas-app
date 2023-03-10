@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Mascotas</title>
+    <div th:replace="~{fragments/bootstrap :: css}"/>
+    <link rel="stylesheet" th:href="@{/css/fontawesome.min.css}">
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/header :: navbar}"/>
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="m-0">Registrarme</h4>
+        </div>
+        <div class="card-body">
+            <form id="formRegistro" th:action="@{/registro/save}" method="post" th:object="${contacto}">
+                <div class="row g-3">
+                    <div class="col-sm-6 col-lg-4">
+                        <label>Nombre:</label>
+                        <input th:field="*{nombre}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('nombre') ? 'is-invalid' : 'is-valid' : ''}" name="nombre" class="form-control" type="text" autocomplete="off">
+                        <div class="invalid-feedback" th:errors="*{nombre}"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <label>Correo electrónico:</label>
+                        <input th:field="*{correo}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('correo') ? 'is-invalid' : 'is-valid' : ''}" name="correo" class="form-control" type="text" autocomplete="off">
+                        <div class="invalid-feedback" th:errors="*{correo}"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <label>Número de teléfono:</label>
+                        <input th:field="*{telefono}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('telefono') ? 'is-invalid' : 'is-valid' : ''}" name="telefono" class="form-control" type="text" autocomplete="off">
+                        <div class="invalid-feedback" th:errors="*{telefono}"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-end">
+            <a th:href="@{/mascotas/list/false}" class="btn btn-secondary"><i class="fas fa-times"></i>&nbsp;Cancelar</a>
+            <button type="submit" form="formRegistro" class="btn btn-success"><i class="fas fa-check"></i>&nbsp;Guardar</button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/bootstrap :: js}"/>
+</body>
+</html>

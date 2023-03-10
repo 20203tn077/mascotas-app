@@ -16,6 +16,7 @@
                     <a class="nav-link" th:classappend="${mascotas} and ${tipo} == 'Gato' ? 'active' : ''" th:href="@{/mascotas/list/Gato/false}">Gatos</a>
                 </li>
             </ul>
+            <a class="btn btn-sm btn-primary" th:href="@{/registro}"><i class="fas fa-user-plus"></i>&nbsp;Registrarme</a>
         </div>
     </div>
 </nav>

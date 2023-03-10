@@ -49,6 +49,10 @@
 
 <div th:replace="~{fragments/bootstrap :: js}"/>
 <script th:src="@{/js/mascotasController.js}"></script>
-<script>if ([[${message != null}]]) notification.show('[[${message}]]', true)</script>
+<script>
+    const message = '[[${message}]]'
+    const success = [[${success}]]
+    if (message) notification.show(message, success)
+</script>
 </body>
 </html>

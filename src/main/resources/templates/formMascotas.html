@@ -18,29 +18,24 @@
         <div class="card-body">
             <form id="formMascota" th:action="${tipo} ? @{/mascotas/save/{tipo}(tipo = ${tipo})} : @{/mascotas/save}" method="post" th:object="${mascota}">
                 <div class="row g-3">
-                    <div class="col-12" th:if="${#fields.hasErrors('*')}">
-                        <div class="alert alert-danger" role="alert">
-                            Por favor, solucione los siguientes errores:
-                            <ul>
-                                <li th:each="error : ${#fields.errors('*')}" th:text="${error}"/>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="col-sm-6 col-lg-4">
                         <label>Nombre:</label>
-                        <input name="nombre" class="form-control" type="text" required autocomplete="off">
+                        <input th:field="*{nombre}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('nombre') ? 'is-invalid' : 'is-valid' : ''}" name="nombre" class="form-control" type="text"  autocomplete="off">
+                        <div class="invalid-feedback" th:errors="*{nombre}"/>
                     </div>
                     <div class="col-sm-6 col-lg-2">
                         <label>Edad:</label>
-                        <input name="edad" class="form-control" type="number" min="0" required>
+                        <input th:field="*{edad}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('edad') ? 'is-invalid' : 'is-valid' : ''}" name="edad" class="form-control" type="number" >
+                        <div class="invalid-feedback" th:errors="*{edad}"/>
                     </div>
                     <div class="col-lg-6">
                         <label>Descripción:</label>
-                        <input name="descripcion" class="form-control" type="text" required autocomplete="off">
+                        <input th:field="*{descripcion}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('descripcion') ? 'is-invalid' : 'is-valid' : ''}" name="descripcion" class="form-control" type="text"  autocomplete="off">
+                        <div class="invalid-feedback" th:errors="*{descripcion}"/>
                     </div>
                     <div th:if="not ${tipo}" class="col-sm-6 col-lg-4">
                         <label>Tipo de mascota</label>
-                        <select name="tipoMascota" class="form-select" required>
+                        <select name="tipoMascota" class="form-select" >
                             <option value="" selected>Selecciona un tipo de mascota</option>
                             <option value="Perro">Perro</option>
                             <option value="Gato">Gato</option>
@@ -48,7 +43,7 @@
                     </div>
                     <div class="col-sm-6 col-lg-4">
                         <label>Imagen</label>
-                        <select name="imagen" class="form-select" required>
+                        <select th:field="*{imagen}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('imagen') ? 'is-invalid' : 'is-valid' : ''}" name="imagen" class="form-select" >
                             <option value="" selected>Selecciona una imagen</option>
                             <option th:if="not ${tipo} or ${tipo} == 'Gato'" value="gato1.jpeg">gato1.jpeg</option>
                             <option th:if="not ${tipo} or ${tipo} == 'Gato'" value="gato2.png">gato2.png</option>
@@ -67,25 +62,29 @@
                             <option th:if="not ${tipo} or ${tipo} == 'Perro'" value="perro7.jpg">perro7.jpg</option>
                             <option th:if="not ${tipo} or ${tipo} == 'Perro'" value="perro8.jpg">perro8.jpg</option>
                         </select>
+                        <div class="invalid-feedback" th:errors="*{imagen}"/>
                     </div>
                     <div class="col-sm-6 col-lg-2">
                         <label>Fecha de rescate:</label>
-                        <input name="fechaRescate" class="form-control" type="date" required>
+                        <input th:field="*{fechaRescate}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('fechaRescate') ? 'is-invalid' : 'is-valid' : ''}" name="fechaRescate" class="form-control" type="date" >
+                        <div class="invalid-feedback" th:errors="*{fechaRescate}"/>
                     </div>
                     <div class="col-sm-6 col-lg-4">
                         <label>Disponible para adopción: </label><br>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
                                 Sí
-                                <input name="disponibleAdopcion" value="true" class="form-check-input" type="radio" required>
+                                <input th:field="*{disponibleAdopcion}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('disponibleAdopcion') ? 'is-invalid' : 'is-valid' : ''}" name="disponibleAdopcion" id="disponibleAdopcion" value="true" class="form-check-input" type="radio" >
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
                             <label class="form-check-label">
                                 No
-                                <input name="disponibleAdopcion" value="false" class="form-check-input" type="radio" required>
+                                <input th:field="*{disponibleAdopcion}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('disponibleAdopcion') ? 'is-invalid' : 'is-valid' : ''}" name="disponibleAdopcion" value="false" class="form-check-input" type="radio" >
                             </label>
                         </div>
+                        <input type="hidden" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('disponibleAdopcion') ? 'is-invalid' : 'is-valid' : ''}">
+                        <div class="invalid-feedback" th:errors="*{disponibleAdopcion}"/>
                     </div>
                 </div>
             </form>
@@ -97,17 +96,6 @@
     </div>
 </div>
 
-<!-- TOAST DE NOTIFICACIONES -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="notification_toast" class="toast border-0 text-bg-success" role="alert">
-        <div class="toast-body">
-            <i class="fas fa-check me-2" id="notification_elIcon"></i><span id="notification_txtMessage"></span>
-        </div>
-    </div>
-</div>
-
 <div th:replace="~{fragments/bootstrap :: js}"/>
-<script th:src="@{/js/mascotasController.js}"></script>
-<script>if ([[${message != null}]]) notification.show('[[${message}]]', true)</script>
 </body>
 </html>

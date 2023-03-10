@@ -1,29 +1,28 @@
 package mx.edu.utez.mascotasapp.model;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import org.springframework.lang.NonNull;
 
 import java.util.Date;
 
 public class Mascota {
-	@NotBlank
-	@Max(32)
+	@NotBlank(message = "Debes ingresar un nombre")
+	@Size(max = 32, message = "Máximo 32 caracteres")
+	@Pattern(regexp = "[A-z ]*", message = "Solo puede contener letras")
 	private String nombre;
-	@NotNull
-	@Min(0)
+	@NotNull(message = "Debes ingresar una edad")
+	@PositiveOrZero(message = "La edad no puede ser negativa")
 	private Integer edad;
-	@NotBlank
-	@Max(128)
+	@NotBlank(message = "Debes ingresar una descripción")
+	@Size(max = 128, message = "Máximo 128 caracteres")
 	private String descripcion;
 	private String tipoMascota;
-	@NotBlank
+	@NotBlank(message = "Debes seleccionar una imagen")
 	private String imagen;
-	@NotNull
+	@NotNull(message = "Debes ingrsar una fecha de rescate")
+	@PastOrPresent(message = "La fecha no puede estar en el futuro")
 	private Date fechaRescate;
-	@NotNull
+	@NotNull(message = "Debes indicar la disponibilidad")
 	private Boolean disponibleAdopcion;
 
 	public Mascota() {

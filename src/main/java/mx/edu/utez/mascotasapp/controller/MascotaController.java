@@ -15,6 +15,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,50 +23,35 @@ import java.util.*;
 @Controller
 @RequestMapping("/mascotas")
 public class MascotaController {
-    private Map<String, Object> context = new LinkedHashMap<>();
 
     @Autowired
     private IMascotaService mascotaService;
     @GetMapping({"/list/{disponibles}", "/list/{tipo}/{disponibles}"})
-    public String list(Model modelo, @PathVariable(required = false) String tipo, @PathVariable boolean disponibles) {
+    public String list(Model modelo, @PathVariable(required = false) @ModelAttribute String tipo, @PathVariable @ModelAttribute boolean disponibles, @ModelAttribute("message") String message, @ModelAttribute("success") String success) {
         List<Mascota> mascotas = new LinkedList<>();
         for (Mascota mascota : mascotaService.findAll()) if ((tipo == null || mascota.getTipoMascota().equals(tipo)) && (!disponibles || mascota.getDisponibleAdopcion())) mascotas.add(mascota);
         modelo.addAttribute("mascotas", mascotas);
-        modelo.addAttribute("disponibles", disponibles);
-        modelo.addAttribute("tipo", tipo);
-        includeContext(modelo);
         return "listMascotas";
     }
 
     @GetMapping({"/new", "/new/{tipo}"})
-    public String newPet(Model modelo, @PathVariable(required = false) String tipo) {
-        modelo.addAttribute("tipo", tipo);
-        modelo.addAttribute("mascota", new Mascota());
-        includeContext(modelo);
+    public String newPet(@PathVariable(required = false) @ModelAttribute String tipo, Mascota mascota) {
         return "formMascotas";
     }
 
     @PostMapping({"/save", "/save/{tipo}"})
-    public ModelAndView save(@PathVariable(required = false) String tipo, Mascota mascota, BindingResult result, @Valid @ModelAttribute ModelMap modelo) {
-        if (result.hasErrors()) {
-            modelo.addAttribute("tipo", tipo);
-            return new ModelAndView("formMascotas", modelo);
-        }
+    public String save(@PathVariable(required = false) @ModelAttribute String tipo, @Valid Mascota mascota, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) return "formMascotas";
         if (mascota.getTipoMascota() == null) mascota.setTipoMascota(tipo);
         mascotaService.save(mascota);
-        context.put("message", "Mascota registrada exitosamente");
-        context.put("success", true);
-        return new ModelAndView("redirect:/mascotas/list" + (tipo != null ? "/" + tipo : "") + "/false");
+        attributes.addFlashAttribute("message", "Mascota registrada exitosamente");
+        attributes.addFlashAttribute("success", true);
+        return "redirect:/mascotas/list" + (tipo != null ? "/" + tipo : "") + "/false";
     }
 
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
         webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
-
-    private void includeContext(Model model) {
-        model.addAllAttributes(context);
-        context.clear();
     }
 }
