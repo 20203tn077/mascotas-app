@@ -1,47 +1,82 @@
 package mx.edu.utez.mascotasapp.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.lang.NonNull;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
+@Entity
+@Table(name = "mascotas")
 public class Mascota {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	@NotBlank(message = "Debes ingresar un nombre")
-	@Size(max = 32, message = "Máximo 32 caracteres")
+	@Size(max = 45, message = "Máximo 45 caracteres")
 	@Pattern(regexp = "[A-z ]*", message = "Solo puede contener letras")
+	@Column(nullable = false, length = 45)
 	private String nombre;
+	@NotBlank(message = "Debes ingresar el sexo")
+	@Size(max = 45, message = "Máximo 1 caracter")
+	@Column(nullable = false, length = 1)
+	private String sexo;
 	@NotNull(message = "Debes ingresar una edad")
 	@PositiveOrZero(message = "La edad no puede ser negativa")
+	@Column(nullable = false)
 	private Integer edad;
-	@NotBlank(message = "Debes ingresar una descripción")
-	@Size(max = 128, message = "Máximo 128 caracteres")
-	private String descripcion;
-	private String tipoMascota;
+	@Size(max = 5, message = "Máximo 45 caracteres")
+	@Column(nullable = false, length = 5)
+	private String tipo;
 	@NotBlank(message = "Debes seleccionar una imagen")
+	@Size(max = 45, message = "Máximo 45 caracteres")
+	@Column(nullable = true, length = 45)
 	private String imagen;
-	@NotBlank(message = "Debes seleccionar un color")
-	private String color;
-	@NotBlank(message = "Debes seleccionar un carácter")
-	private String caracter;
-	@NotNull(message = "Debes ingrsar una fecha de rescate")
-	@PastOrPresent(message = "La fecha no puede estar en el futuro")
-	private Date fechaRescate;
 	@NotNull(message = "Debes indicar la disponibilidad")
+	@Column(name = "disponible_adopcion", columnDefinition = "tinyint not null")
 	private Boolean disponibleAdopcion;
+	@Column(name = "fecha_registro", nullable = false)
+	@CreationTimestamp
+	private Date fechaRegistro;
+	@Column(nullable = false, length = 10)
+	private String validacion; // keywords: validado, rechazado, pendiente
+	@Column(columnDefinition = "longtext null")
+	private String detalles;
+	@ManyToOne
+	@JoinColumn(name = "tamano_id", nullable = false)
+	private Tamano tamano;
+	@NotNull(message = "Debes seleccionar un color")
+	@ManyToOne
+	@JoinColumn(name = "color_id", nullable = false)
+	private Color color;
+	@NotNull(message = "Debes seleccionar un carácter")
+	@ManyToOne
+	@JoinColumn(name = "caracter_id", nullable = false)
+	private Caracter caracter;
 
 	public Mascota() {
 	}
 
-	public Mascota(String nombre, Integer edad, String descripcion, String tipoMascota, String imagen, String color, String caracter, Date fechaRescate, Boolean disponibleAdopcion) {
+	public Mascota(String nombre, String sexo, Integer edad, String tipo, String imagen, Boolean disponibleAdopcion, String validacion, String detalles, Tamano tamano, Color color, Caracter caracter) {
 		this.nombre = nombre;
+		this.sexo = sexo;
 		this.edad = edad;
-		this.descripcion = descripcion;
-		this.tipoMascota = tipoMascota;
+		this.tipo = tipo;
 		this.imagen = imagen;
+		this.disponibleAdopcion = disponibleAdopcion;
+		this.validacion = validacion;
+		this.detalles = detalles;
+		this.tamano = tamano;
 		this.color = color;
 		this.caracter = caracter;
-		this.fechaRescate = fechaRescate;
-		this.disponibleAdopcion = disponibleAdopcion;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNombre() {
@@ -52,6 +87,14 @@ public class Mascota {
 		this.nombre = nombre;
 	}
 
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
 	public Integer getEdad() {
 		return edad;
 	}
@@ -60,20 +103,12 @@ public class Mascota {
 		this.edad = edad;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public String getTipoMascota() {
-		return tipoMascota;
-	}
-
-	public void setTipoMascota(String tipoMascota) {
-		this.tipoMascota = tipoMascota;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getImagen() {
@@ -84,35 +119,59 @@ public class Mascota {
 		this.imagen = imagen;
 	}
 
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getCaracter() {
-		return caracter;
-	}
-
-	public void setCaracter(String caracter) {
-		this.caracter = caracter;
-	}
-
-	public Date getFechaRescate() {
-		return fechaRescate;
-	}
-
-	public void setFechaRescate(Date fechaRescate) {
-		this.fechaRescate = fechaRescate;
-	}
-
 	public Boolean getDisponibleAdopcion() {
 		return disponibleAdopcion;
 	}
 
 	public void setDisponibleAdopcion(Boolean disponibleAdopcion) {
 		this.disponibleAdopcion = disponibleAdopcion;
+	}
+
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	public String getValidacion() {
+		return validacion;
+	}
+
+	public void setValidacion(String validacion) {
+		this.validacion = validacion;
+	}
+
+	public String getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(String detalles) {
+		this.detalles = detalles;
+	}
+
+	public Tamano getTamano() {
+		return tamano;
+	}
+
+	public void setTamano(Tamano tamano) {
+		this.tamano = tamano;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public Caracter getCaracter() {
+		return caracter;
+	}
+
+	public void setCaracter(Caracter caracter) {
+		this.caracter = caracter;
 	}
 }

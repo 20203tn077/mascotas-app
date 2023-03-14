@@ -36,7 +36,7 @@ public class MascotaController {
     @GetMapping({"/list/{disponibles}", "/list/{tipo}/{disponibles}"})
     public String list(Model modelo, @PathVariable(required = false) @ModelAttribute String tipo, @PathVariable @ModelAttribute boolean disponibles) {
         List<Mascota> mascotas = new LinkedList<>();
-        for (Mascota mascota : mascotaService.findAll()) if ((tipo == null || mascota.getTipoMascota().equals(tipo)) && (!disponibles || mascota.getDisponibleAdopcion())) mascotas.add(mascota);
+        for (Mascota mascota : mascotaService.findAll()) if ((tipo == null || mascota.getTipo().equals(tipo)) && (!disponibles || mascota.getDisponibleAdopcion())) mascotas.add(mascota);
         modelo.addAttribute("mascotas", mascotas);
         return "listMascotas";
     }
@@ -51,7 +51,7 @@ public class MascotaController {
     @PostMapping({"/save", "/save/{tipo}"})
     public String save(@PathVariable(required = false) @ModelAttribute String tipo, @Valid Mascota mascota, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) return "formMascotas";
-        if (mascota.getTipoMascota() == null) mascota.setTipoMascota(tipo);
+        if (mascota.getTipo() == null) mascota.setTipo(tipo);
         if (mascotaService.save(mascota)) {
             attributes.addFlashAttribute("message", "Mascota registrada exitosamente");
             attributes.addFlashAttribute("success", true);
