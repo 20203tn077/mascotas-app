@@ -5,8 +5,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Mascotas</title>
-    <div th:replace="~{fragments/bootstrap :: css}"/>
-    <link rel="stylesheet" th:href="@{/css/fontawesome.min.css}">
+    <div th:replace="~{fragments/dist :: css}"/>
 </head>
 <body class="bg-light">
 <div th:replace="~{fragments/header :: navbar}"/>
@@ -25,9 +24,19 @@
                 <img class="card-img-top" style="aspect-ratio: 3/2; object-fit: cover" th:src="@{/images/mascotas/{imagen}(imagen = *{imagen})}" alt="">
                 <div class="card-body vstack gap-2">
                     <h5 class="m-0" th:text="*{nombre}"/>
-                    <div>
-                        <span class="badge text-bg-primary me-1" th:text="*{tipoMascota}"/>
-                        <span class="badge" th:classappend="*{disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}" th:text="*{disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"/>
+                    <div class="row g-1">
+                        <div class="col-auto">
+                            <span title="Tipo de mascota" class="badge text-bg-primary me-1" th:text="*{tipoMascota}"/>
+                        </div>
+                        <div class="col-auto">
+                            <span title="Disponibilidad" class="badge" th:classappend="*{disponibleAdopcion ? 'text-bg-success' : 'text-bg-secondary'}" th:text="*{disponibleAdopcion ? 'Disponible para adopción' : 'No disponible'}"/>
+                        </div>
+                        <div class="col-auto">
+                            <span title="Carácter" class="badge text-bg-danger me-1" th:text="*{caracter}"/>
+                        </div>
+                        <div class="col-auto">
+                            <span title="Color" class="badge text-bg-warning me-1" th:text="*{color}"/>
+                        </div>
                     </div>
                     <span th:text="*{descripcion}"/>
                     <p class="m-0"><span class="text-muted">Edad: </span>[[${mascota.edad}]] años</p>
@@ -47,12 +56,14 @@
     </div>
 </div>
 
-<div th:replace="~{fragments/bootstrap :: js}"/>
+<div th:replace="~{fragments/dist :: js}"/>
 <script th:src="@{/js/mascotasController.js}"></script>
-<script>
-    const message = '[[${message}]]'
-    const success = [[${success}]]
-    if (message) notification.show(message, success)
+<script th:if="${message}">
+    Toastify({
+        text: '[[${message}]]',
+        duration: 3000,
+        className: `toasty-[[${success} ? 'success' : 'error' ]]`,
+    }).showToast();
 </script>
 </body>
 </html>

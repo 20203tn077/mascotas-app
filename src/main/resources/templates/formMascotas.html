@@ -5,8 +5,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Mascotas</title>
-    <div th:replace="~{fragments/bootstrap :: css}"/>
-    <link rel="stylesheet" th:href="@{/css/fontawesome.min.css}">
+    <div th:replace="~{fragments/dist :: css}"/>
 </head>
 <body class="bg-light">
 <div th:replace="~{fragments/header :: navbar}"/>
@@ -64,7 +63,23 @@
                         </select>
                         <div class="invalid-feedback" th:errors="*{imagen}"/>
                     </div>
-                    <div class="col-sm-6 col-lg-2">
+                    <div class="col-sm-6 col-lg-4">
+                        <label>Color</label>
+                        <select th:field="*{color}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('color') ? 'is-invalid' : 'is-valid' : ''}" name="color" class="form-select" >
+                            <option value="" selected>Selecciona el color de la mascota</option>
+                            <option th:each="color : ${colores}" th:value="${color}" th:text="${color}"/>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{imagen}"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <label>Carácter</label>
+                        <select th:field="*{caracter}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('caracter') ? 'is-invalid' : 'is-valid' : ''}" name="caracter" class="form-select" >
+                            <option value="" selected>Selecciona el caracter de la mascota</option>
+                            <option th:each="caracter : ${caracteres}" th:value="${caracter}" th:text="${caracter}"/>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{imagen}"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
                         <label>Fecha de rescate:</label>
                         <input th:field="*{fechaRescate}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('fechaRescate') ? 'is-invalid' : 'is-valid' : ''}" name="fechaRescate" class="form-control" type="date" >
                         <div class="invalid-feedback" th:errors="*{fechaRescate}"/>
@@ -96,6 +111,6 @@
     </div>
 </div>
 
-<div th:replace="~{fragments/bootstrap :: js}"/>
+<div th:replace="~{fragments/dist :: js}"/>
 </body>
 </html>

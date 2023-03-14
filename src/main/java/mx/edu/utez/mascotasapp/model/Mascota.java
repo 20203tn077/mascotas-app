@@ -19,6 +19,10 @@ public class Mascota {
 	private String tipoMascota;
 	@NotBlank(message = "Debes seleccionar una imagen")
 	private String imagen;
+	@NotBlank(message = "Debes seleccionar un color")
+	private String color;
+	@NotBlank(message = "Debes seleccionar un carácter")
+	private String caracter;
 	@NotNull(message = "Debes ingrsar una fecha de rescate")
 	@PastOrPresent(message = "La fecha no puede estar en el futuro")
 	private Date fechaRescate;
@@ -28,12 +32,14 @@ public class Mascota {
 	public Mascota() {
 	}
 
-	public Mascota(String nombre, Integer edad, String descripcion, String tipoMascota, String imagen, Date fechaRescate, Boolean disponibleAdopcion) {
+	public Mascota(String nombre, Integer edad, String descripcion, String tipoMascota, String imagen, String color, String caracter, Date fechaRescate, Boolean disponibleAdopcion) {
 		this.nombre = nombre;
 		this.edad = edad;
 		this.descripcion = descripcion;
 		this.tipoMascota = tipoMascota;
 		this.imagen = imagen;
+		this.color = color;
+		this.caracter = caracter;
 		this.fechaRescate = fechaRescate;
 		this.disponibleAdopcion = disponibleAdopcion;
 	}
@@ -76,6 +82,22 @@ public class Mascota {
 
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getCaracter() {
+		return caracter;
+	}
+
+	public void setCaracter(String caracter) {
+		this.caracter = caracter;
 	}
 
 	public Date getFechaRescate() {

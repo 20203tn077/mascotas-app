@@ -8,22 +8,25 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class MascotaServiceImpl implements IMascotaService {
     private List<Mascota> pets = null;
 
-    public MascotaServiceImpl(List<Mascota> pets) {
-        if (pets != null) fillPets();
+    public MascotaServiceImpl() {
+        fillPets();
     }
 
     @Override
     public List<Mascota> findAll() {
+        if (pets == null) fillPets();
         return pets;
     }
 
     @Override
     public boolean save(Mascota pet) {
+        if (new Random().nextBoolean()) return false;
         pets.add(0, pet);
         return true;
     }
@@ -38,6 +41,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "Perro llamado Pancho",
                     "Perro",
                     "perro1.jpg",
+                    "Con manchas",
+                    "Juguetón",
                     formatter.parse("03-03-2023"),
                     false
             ));
@@ -47,6 +52,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "Gato llamado Lince",
                     "Gato",
                     "gato3.jpg",
+                    "Gris",
+                    "Tranquilo",
                     formatter.parse("28-02-2023"),
                     true
             ));
@@ -56,6 +63,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "Perro llamado Galleta",
                     "Perro",
                     "perro4.jpg",
+                    "",
+                    "Protector",
                     formatter.parse("26-02-2023"),
                     true
             ));
@@ -65,6 +74,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "Gato llamado Manchas",
                     "Gato",
                     "gato1.jpeg",
+                    "Atrigrado",
+                    "Juguetón",
                     formatter.parse("14-02-2023"),
                     false
             ));
@@ -74,6 +85,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "El Serch",
                     "Perro",
                     "perro3.jpeg",
+                    "Bicolor",
+                    "Amoroso",
                     formatter.parse("14-02-2023"),
                     true
             ));
@@ -83,6 +96,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "Gato llamado Pelusa",
                     "Gato",
                     "gato2.png",
+                    "Atrigrado",
+                    "Activo",
                     formatter.parse("12-02-2023"),
                     true
             ));
@@ -92,6 +107,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "Segundo gato llamado Manchas",
                     "Gato",
                     "gato4.png",
+                    "Con manchas",
+                    "Activo",
                     formatter.parse("09-02-2023"),
                     false
             ));
@@ -101,6 +118,8 @@ public class MascotaServiceImpl implements IMascotaService {
                     "Perro llamado Max",
                     "Perro",
                     "perro2.jpg",
+                    "Bicolor",
+                    "Juguetón",
                     formatter.parse("01-02-2023"),
                     true
             ));

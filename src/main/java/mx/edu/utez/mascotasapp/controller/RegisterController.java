@@ -25,9 +25,13 @@ public class RegisterController {
     @PostMapping("/save")
     public String save(@Valid Contacto contacto, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) return "registro";
-        contactoService.save(contacto);
-        attributes.addFlashAttribute("message", "Bienvenid@, " + contacto.getNombre().split(" ")[0]);
-        attributes.addFlashAttribute("success", true);
+        if (contactoService.save(contacto)) {
+            attributes.addFlashAttribute("message", "Bienvenid@, " + contacto.getNombre().split(" ")[0]);
+            attributes.addFlashAttribute("success", true);
+        } else {
+            attributes.addFlashAttribute("message", "Ocurrió un error :(");
+            attributes.addFlashAttribute("success", false);
+        }
         return "redirect:/mascotas/list/false";
     }
 }

@@ -5,8 +5,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Mascotas</title>
-    <div th:replace="~{fragments/bootstrap :: css}"/>
-    <link rel="stylesheet" th:href="@{/css/fontawesome.min.css}">
+    <div th:replace="~{fragments/dist :: css}"/>
 </head>
 <body class="bg-light">
 <div th:replace="~{fragments/header :: navbar}"/>
@@ -25,12 +24,12 @@
                     </div>
                     <div class="col-sm-6 col-lg-4">
                         <label>Correo electrónico:</label>
-                        <input th:field="*{correo}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('correo') ? 'is-invalid' : 'is-valid' : ''}" name="correo" class="form-control" type="text" autocomplete="off">
+                        <input th:field="*{correo}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('correo') ? 'is-invalid' : 'is-valid' : ''}" name="correo" class="form-control" type="email" autocomplete="off">
                         <div class="invalid-feedback" th:errors="*{correo}"/>
                     </div>
                     <div class="col-sm-6 col-lg-4">
                         <label>Número de teléfono:</label>
-                        <input th:field="*{telefono}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('telefono') ? 'is-invalid' : 'is-valid' : ''}" name="telefono" class="form-control" type="text" autocomplete="off">
+                        <input minlength="10" maxlength="10" pattern="[0-9]*" th:field="*{telefono}" th:classappend="${#fields.hasErrors('*') ? #fields.hasErrors('telefono') ? 'is-invalid' : 'is-valid' : ''}" name="telefono" class="form-control" type="text" autocomplete="off">
                         <div class="invalid-feedback" th:errors="*{telefono}"/>
                     </div>
                 </div>
@@ -43,6 +42,6 @@
     </div>
 </div>
 
-<div th:replace="~{fragments/bootstrap :: js}"/>
+<div th:replace="~{fragments/dist :: js}"/>
 </body>
 </html>
