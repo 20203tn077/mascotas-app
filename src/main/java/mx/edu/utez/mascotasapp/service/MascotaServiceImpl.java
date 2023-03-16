@@ -1,6 +1,8 @@
 package mx.edu.utez.mascotasapp.service;
 
+import mx.edu.utez.mascotasapp.Repository.IMascotaRepository;
 import mx.edu.utez.mascotasapp.model.Mascota;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -12,13 +14,17 @@ import java.util.Random;
 
 @Service
 public class MascotaServiceImpl implements IMascotaService {
+    @Autowired
+    IMascotaRepository repository;
+
     @Override
     public List<Mascota> findAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
     public boolean save(Mascota pet) {
-        return false;
+        repository.save(pet);
+        return true;
     }
 }
