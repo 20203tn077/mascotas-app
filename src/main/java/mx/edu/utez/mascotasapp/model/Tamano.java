@@ -3,7 +3,7 @@ package mx.edu.utez.mascotasapp.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tamano")
+@Table(name = "tamanos")
 public class Tamano {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

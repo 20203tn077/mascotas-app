@@ -39,7 +39,7 @@ public class Mascota {
 	@CreationTimestamp
 	private Date fechaRegistro;
 	@Column(nullable = false, length = 10)
-	private String validacion; // keywords: validado, rechazado, pendiente
+	private String validacion;
 	@Column(columnDefinition = "longtext null")
 	private String detalles;
 	@ManyToOne
